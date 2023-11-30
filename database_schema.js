@@ -16,7 +16,7 @@ export async function createDatabaseSchema() {
 		await pool.execute(`
 			CREATE TABLE IF NOT EXISTS WeeklySessions (
 				sessionID INT AUTO_INCREMENT PRIMARY KEY,
-				sessionDate DATE NOT NULL,
+				sessionDate DATETIME DEFAULT CURRENT_TIMESTAMP,
 				sessionType ENUM('Technical', 'Softskills') NOT NULL,
 				sessionWorkshop ENUM('Appsplash', 'Techsolve', 'Investeneur', 'Devology', 'Markative') NOT NULL
 			);
@@ -25,6 +25,7 @@ export async function createDatabaseSchema() {
 			CREATE TABLE IF NOT EXISTS Attendance (
 				sessionID INT NOT NULL,
 				participantID INT NOT NULL,
+				attended BOOLEAN NOT NULL,
 				PRIMARY KEY (sessionID, participantID),
 				FOREIGN KEY (sessionID) REFERENCES WeeklySessions(sessionID),
 				FOREIGN KEY (participantID) REFERENCES Users(userID)

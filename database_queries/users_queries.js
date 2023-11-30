@@ -39,4 +39,49 @@ export async function createAdminAccount(fullName, email, password) {
 	return result;
 }
 
-// register a new user
+// get all users of certain type
+export async function getAllUsersByUserType(type) {
+	const [rows] = await pool.execute(
+		`SELECT userID, userFullName, userEmail, userType, userWorkshop FROM Users WHERE userType = ?`,
+		[type]
+	);
+	if (rows !== undefined) {
+		return rows;
+	} else {
+		return 0;
+	}
+}
+
+// get all participants of a workshop
+export async function getAllParticipantsByWorkshop(workshop) {
+	const [rows] = await pool.execute(
+		`SELECT userID, userFullName, userEmail, userType, userWorkshop FROM Users WHERE userType = 'Participant' AND userWorkshop = ?`,
+		[workshop]
+	);
+	if (rows !== undefined) {
+		return rows;
+	} else {
+		return 0;
+	}
+}
+
+// create user
+export async function createUserAccount(
+	fullName,
+	email,
+	password,
+	userType,
+	userWorkshop
+) {
+	let result;
+	const { hashedPassword, salt } = encryptPassRandomSalt(password);
+	result = await pool.execute(
+		`
+		INSERT INTO Users (userFullName, userEmail, password, salt, userType, userWorkshop)
+		VALUES (?, ?, ?, ?, ?, ?)
+	`,
+		[fullName, email, hashedPassword, salt, userType, userWorkshop]
+	);
+
+	return result;
+}

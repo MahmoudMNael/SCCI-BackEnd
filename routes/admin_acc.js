@@ -1,7 +1,13 @@
 import express from "express";
 const router = express.Router();
-import { createAdminAccount } from "../database_queries/users_queries.js";
+import {
+	createAdminAccount,
+	createUserAccount,
+	getAllUsersByUserType,
+} from "../database_queries/users_queries.js";
+import { middlewareObj } from "../middlewares/index.js";
 
+// Create admin account not implemented in application
 router.post("/account", async (req, res) => {
 	let { fullName, email, password } = req.body.data;
 
@@ -14,6 +20,44 @@ router.post("/account", async (req, res) => {
 		res.status(200).json({
 			message: `Account created successfully`,
 		});
+	}
+});
+
+// get all accounts of a certain userType
+router.get("/accounts/:type", async (req, res) => {
+	const users = await getAllUsersByUserType(req.params.type);
+	if (!users) {
+		res.status(500).json({
+			message: `No users with this user type -> ${req.params.type}`,
+		});
+	} else {
+		res.status(200).json({
+			data: users,
+		});
+	}
+});
+
+// Create a new account
+router.post("/account/create", async (req, res) => {
+	const users = req.body;
+	try {
+		for (let user of users) {
+			await createUserAccount(
+				user.userFullName,
+				user.userEmail,
+				user.userEmail,
+				user.userType,
+				user.userWorkshop
+			);
+		}
+		res.status(200).json({
+			message: "Users Created!",
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: error,
+		});
+		console.log(error);
 	}
 });
 

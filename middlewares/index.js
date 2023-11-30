@@ -11,15 +11,4 @@ middlewareObj.isLoggedIn = (req, res, next) => {
 	}
 };
 
-middlewareObj.isAdmin = (req, res, next) => {
-	if (req.user.userType == "Admin") {
-		next();
-	} else {
-		res.status(403).json({
-			code: 403,
-			message: "Not Authorized as Admin",
-		});
-	}
-};
-
 export { middlewareObj };
