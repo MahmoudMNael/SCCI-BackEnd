@@ -4,6 +4,7 @@ import { getUser } from "../database_queries/users_queries.js";
 import { isPasswordMatched } from "../encryption.js";
 import passport from "passport";
 import LocalStrategy from "passport-local";
+import { middlewareObj } from "../middlewares/index.js";
 
 // authentication:: local strategy creation with the verification
 passport.use(
@@ -41,13 +42,34 @@ passport.deserializeUser(function (user, cb) {
 
 // routes for the authentication login and register and logout (POST)
 router.post("/login", passport.authenticate("local"), (req, res) => {
+	console.log(req.body);
 	res.status(200).json({
 		code: 200,
 		message: "ok",
+		data: {
+			userID: req.user.userID,
+			userFullName: req.user.userFullName,
+			userEmail: req.user.userEmail,
+			userType: req.user.userType,
+			userWorkshop: req.user.userWorkshop,
+		},
 	});
 });
 
-router.post("/logout", function (req, res, next) {
+router.get("/currentUser", middlewareObj.isLoggedIn, async (req, res) => {
+	res.status(200).json({
+		code: 200,
+		data: {
+			userID: req.user.userID,
+			userFullName: req.user.userFullName,
+			userEmail: req.user.userEmail,
+			userType: req.user.userType,
+			userWorkshop: req.user.userWorkshop,
+		},
+	});
+});
+
+router.post("/logout", (req, res, next) => {
 	req.session.destroy((err) => {
 		if (err) {
 			console.log(err);

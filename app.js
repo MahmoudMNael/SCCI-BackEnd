@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import { createDatabaseSchema } from "./database_schema.js";
 import { router as authRoutes } from "./routes/auth.js";
 import { router as adminAccRoutes } from "./routes/admin_acc.js";
-import { middlewareObj } from "./middlewares/index.js";
+import { router as hrAccRoutes } from "./routes/hr_acc.js";
 
 dotenv.config();
 
@@ -41,17 +41,13 @@ app.use(
 app.use(passport.authenticate("session"));
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminAccRoutes);
+app.use("/api/hr", hrAccRoutes);
 
-app.get(
-	"/",
-	middlewareObj.isLoggedIn,
-	middlewareObj.isAdmin,
-	async (req, res) => {
-		res.status(200).json({
-			message: "Welcome to the API",
-		});
-	}
-);
+app.get("/", async (req, res) => {
+	res.status(200).json({
+		message: "Welcome to the API",
+	});
+});
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
