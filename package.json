@@ -2,7 +2,6 @@
 	"name": "scci-app",
 	"version": "24.0.0",
 	"description": "The backend for the SCCI 24' mobile application.",
-	"type": "module",
 	"main": "app.js",
 	"scripts": {
 		"dev": "npx nodemon app.js"

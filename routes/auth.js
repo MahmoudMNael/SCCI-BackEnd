@@ -1,10 +1,10 @@
-import express from "express";
+const express = require("express");
 const router = express.Router();
-import { getUser } from "../database_queries/users_queries.js";
-import { isPasswordMatched } from "../encryption.js";
-import passport from "passport";
-import LocalStrategy from "passport-local";
-import { middlewareObj } from "../middlewares/index.js";
+const { getUser } = require("../database_queries/users_queries.js");
+const { isPasswordMatched } = require("../encryption.js");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const { isLoggedIn } = require("../middlewares/index.js");
 
 // authentication:: local strategy creation with the verification
 passport.use(
@@ -56,7 +56,7 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
 	});
 });
 
-router.get("/currentUser", middlewareObj.isLoggedIn, async (req, res) => {
+router.get("/currentUser", isLoggedIn, async (req, res) => {
 	res.status(200).json({
 		code: 200,
 		data: {
@@ -82,4 +82,4 @@ router.post("/logout", (req, res, next) => {
 	});
 });
 
-export { router };
+module.exports = router;

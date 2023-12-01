@@ -1,17 +1,19 @@
-import express from "express";
-import passport from "passport";
-import session from "express-session";
-import mySQLSession from "express-mysql-session";
-import cors from "cors";
-import dotenv from "dotenv";
-import { createDatabaseSchema } from "./database_schema.js";
-import { router as authRoutes } from "./routes/auth.js";
-import { router as adminAccRoutes } from "./routes/admin_acc.js";
-import { router as hrAccRoutes } from "./routes/hr_acc.js";
+const express = require("express");
+const passport = require("passport");
+const session = require("express-session");
+const mySQLSession = require("express-mysql-session");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const { createDatabaseSchema } = require("./database_schema.js");
+const authRoutes = require("./routes/auth.js");
+const adminAccRoutes = require("./routes/admin_acc.js");
+const hrAccRoutes = require("./routes/hr_acc.js");
 
 dotenv.config();
 
-await createDatabaseSchema();
+(async function () {
+	await createDatabaseSchema();
+})();
 
 const MySQLStore = mySQLSession(session);
 

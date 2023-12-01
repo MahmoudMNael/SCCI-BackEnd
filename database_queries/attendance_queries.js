@@ -1,7 +1,7 @@
-import { pool } from "../database_connection.js";
+const pool = require("../database_connection.js");
 
 // get all weekly sessions
-export async function getAllSessionsOfWorkshop(sessionWorkshop) {
+async function getAllSessionsOfWorkshop(sessionWorkshop) {
 	const [rows] = await pool.execute(
 		"SELECT * FROM WeeklySessions WHERE sessionWorkshop = ?",
 		[sessionWorkshop]
@@ -14,7 +14,7 @@ export async function getAllSessionsOfWorkshop(sessionWorkshop) {
 }
 
 // add a new session attendance
-export async function addNewSessionOfWorkshop(sessionType, sessionWorkshop) {
+async function addNewSessionOfWorkshop(sessionType, sessionWorkshop) {
 	let [result] = await pool.execute(
 		`
 		INSERT INTO WeeklySessions (sessionType, sessionWorkshop)
@@ -27,10 +27,7 @@ export async function addNewSessionOfWorkshop(sessionType, sessionWorkshop) {
 }
 
 // Add participant attendance either attended or not to a session by id
-export async function addParticipantAttendanceToSession(
-	sessionID,
-	participant
-) {
+async function addParticipantAttendanceToSession(sessionID, participant) {
 	let result = await pool.execute(
 		`
 		INSERT INTO Attendance (sessionID, participantID, attended)
@@ -43,7 +40,7 @@ export async function addParticipantAttendanceToSession(
 }
 
 // get all participants attendance in a certain session by ID
-export async function getAttendanceOfSession(sessionID) {
+async function getAttendanceOfSession(sessionID) {
 	let [rows] = await pool.execute(
 		`
 		SELECT 
@@ -74,3 +71,10 @@ export async function getAttendanceOfSession(sessionID) {
 		return 0;
 	}
 }
+
+module.exports = {
+	getAllSessionsOfWorkshop,
+	addNewSessionOfWorkshop,
+	addParticipantAttendanceToSession,
+	getAttendanceOfSession,
+};

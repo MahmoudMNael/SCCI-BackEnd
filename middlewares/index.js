@@ -1,6 +1,4 @@
-let middlewareObj = {};
-
-middlewareObj.isLoggedIn = (req, res, next) => {
+const isLoggedIn = (req, res, next) => {
 	if (req.isAuthenticated()) {
 		next();
 	} else {
@@ -11,4 +9,4 @@ middlewareObj.isLoggedIn = (req, res, next) => {
 	}
 };
 
-export { middlewareObj };
+module.exports = { isLoggedIn };
