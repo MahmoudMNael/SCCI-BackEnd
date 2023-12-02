@@ -41,11 +41,11 @@ app.use(
 	})
 );
 app.use(passport.authenticate("session"));
-app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminAccRoutes);
-app.use("/api/hr", hrAccRoutes);
+app.use("/app/24/api/auth", authRoutes);
+app.use("/app/24/api/admin", adminAccRoutes);
+app.use("/app/24/api/hr", hrAccRoutes);
 
-app.get("/", async (req, res) => {
+app.get("/app/24", async (req, res) => {
 	res.status(200).json({
 		message: "Welcome to the API",
 	});

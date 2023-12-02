@@ -3,7 +3,7 @@ const pool = require("../database_connection.js");
 // get all weekly sessions
 async function getAllSessionsOfWorkshop(sessionWorkshop) {
 	const [rows] = await pool.execute(
-		"SELECT * FROM WeeklySessions WHERE sessionWorkshop = ?",
+		"SELECT * FROM WeeklySessions WHERE sessionWorkshop = ? ORDER BY sessionDate DESC",
 		[sessionWorkshop]
 	);
 	if (rows !== undefined) {

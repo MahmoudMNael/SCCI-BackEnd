@@ -4,7 +4,6 @@
 	"description": "The backend for the SCCI 24' mobile application.",
 	"main": "app.js",
 	"scripts": {
-		"start": "node app.js",
 		"dev": "npx nodemon app.js"
 	},
 	"repository": {
