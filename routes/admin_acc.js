@@ -1,11 +1,11 @@
-import express from "express";
+const express = require("express");
 const router = express.Router();
-import {
+const {
 	createAdminAccount,
 	createUserAccount,
 	getAllUsersByUserType,
-} from "../database_queries/users_queries.js";
-import { middlewareObj } from "../middlewares/index.js";
+} = require("../database_queries/users_queries.js");
+const { isLoggedIn } = require("../middlewares/index.js");
 
 // Create admin account not implemented in application
 router.post("/account", async (req, res) => {
@@ -61,4 +61,4 @@ router.post("/account/create", async (req, res) => {
 	}
 });
 
-export { router };
+module.exports = router;

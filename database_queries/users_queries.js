@@ -1,14 +1,14 @@
-import { pool } from "../database_connection.js";
-import { encryptPassRandomSalt } from "../encryption.js";
+const pool = require("../database_connection.js");
+const { encryptPassRandomSalt } = require("../encryption.js");
 
 // get all registered users
-export async function getAllUsers() {
+async function getAllUsers() {
 	const [rows] = await pool.execute("SELECT * FROM Users");
 	return rows;
 }
 
 // get specific user by username (primary_key)
-export async function getUser(email) {
+async function getUser(email) {
 	const [[row]] = await pool.execute(
 		`SELECT * FROM Users WHERE userEmail = ?`,
 		[email]
@@ -21,7 +21,7 @@ export async function getUser(email) {
 }
 
 // create admin
-export async function createAdminAccount(fullName, email, password) {
+async function createAdminAccount(fullName, email, password) {
 	let result;
 	const { hashedPassword, salt } = encryptPassRandomSalt(password);
 	try {
@@ -40,7 +40,7 @@ export async function createAdminAccount(fullName, email, password) {
 }
 
 // get all users of certain type
-export async function getAllUsersByUserType(type) {
+async function getAllUsersByUserType(type) {
 	const [rows] = await pool.execute(
 		`SELECT userID, userFullName, userEmail, userType, userWorkshop FROM Users WHERE userType = ?`,
 		[type]
@@ -53,7 +53,7 @@ export async function getAllUsersByUserType(type) {
 }
 
 // get all participants of a workshop
-export async function getAllParticipantsByWorkshop(workshop) {
+async function getAllParticipantsByWorkshop(workshop) {
 	const [rows] = await pool.execute(
 		`SELECT userID, userFullName, userEmail, userType, userWorkshop FROM Users WHERE userType = 'Participant' AND userWorkshop = ?`,
 		[workshop]
@@ -66,7 +66,7 @@ export async function getAllParticipantsByWorkshop(workshop) {
 }
 
 // create user
-export async function createUserAccount(
+async function createUserAccount(
 	fullName,
 	email,
 	password,
@@ -85,3 +85,12 @@ export async function createUserAccount(
 
 	return result;
 }
+
+module.exports = {
+	getAllUsers,
+	getUser,
+	createAdminAccount,
+	getAllUsersByUserType,
+	getAllParticipantsByWorkshop,
+	createUserAccount,
+};

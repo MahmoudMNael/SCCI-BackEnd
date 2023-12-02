@@ -1,6 +1,6 @@
-import { pool } from "./database_connection.js";
+const pool = require("./database_connection.js");
 
-export async function createDatabaseSchema() {
+async function createDatabaseSchema() {
 	try {
 		await pool.execute(`
 			CREATE TABLE IF NOT EXISTS Users (
@@ -35,3 +35,7 @@ export async function createDatabaseSchema() {
 		console.error(e);
 	}
 }
+
+module.exports = {
+	createDatabaseSchema,
+};

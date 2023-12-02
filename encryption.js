@@ -1,7 +1,7 @@
-import crypto from "node:crypto";
+const crypto = require("node:crypto");
 
 // hash a given password using a randomized salt
-export function encryptPassRandomSalt(password) {
+function encryptPassRandomSalt(password) {
 	const salt = crypto.randomBytes(16).toString("hex");
 	const hashedPassword = crypto
 		.pbkdf2Sync(password, salt, 310000, 64, "sha512")
@@ -10,7 +10,7 @@ export function encryptPassRandomSalt(password) {
 }
 
 // hash a given password with a given salt
-export function encryptPassWithSalt(password, salt) {
+function encryptPassWithSalt(password, salt) {
 	const hashedPassword = crypto
 		.pbkdf2Sync(password, salt, 310000, 64, "sha512")
 		.toString("hex");
@@ -18,7 +18,13 @@ export function encryptPassWithSalt(password, salt) {
 }
 
 // check 2 passwords if they match
-export function isPasswordMatched(hashedPasswordDB, saltDB, password) {
+function isPasswordMatched(hashedPasswordDB, saltDB, password) {
 	const hashed = encryptPassWithSalt(password, saltDB);
 	return hashed === hashedPasswordDB;
 }
+
+module.exports = {
+	encryptPassRandomSalt,
+	encryptPassWithSalt,
+	isPasswordMatched,
+};
