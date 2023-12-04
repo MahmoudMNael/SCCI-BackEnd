@@ -38,7 +38,7 @@ router.get("/sessions/:workshop", async (req, res) => {
 		let formattedSessions = sessions.map((session) => {
 			return {
 				...session,
-				sessionDate: moment(session.sessionDate).format("DD MMM yyyy HH:mm:ss"),
+				sessionDate: moment(session.sessionDate).format("DD MMM yyyy"),
 			};
 		});
 		res.status(200).json({
