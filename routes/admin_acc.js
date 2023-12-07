@@ -44,8 +44,8 @@ router.post("/account/create", async (req, res) => {
 		for (let user of users) {
 			await createUserAccount(
 				user.userFullName,
-				user.userEmail,
-				user.userEmail,
+				user.userEmail.toLowerCase(),
+				user.userPass,
 				user.userType,
 				user.userWorkshop
 			);
