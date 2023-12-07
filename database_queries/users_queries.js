@@ -42,7 +42,7 @@ async function createAdminAccount(fullName, email, password) {
 // get all users of certain type
 async function getAllUsersByUserType(type) {
 	const [rows] = await pool.execute(
-		`SELECT userID, userFullName, userEmail, userType, userWorkshop FROM Users WHERE userType = ? ORDER BY userFullName`,
+		`SELECT userID, userFullName, userEmail, userType, userWorkshop FROM Users WHERE userType = ? ORDER BY userWorkshop, userFullName`,
 		[type]
 	);
 	if (rows !== undefined) {
