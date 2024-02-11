@@ -6,6 +6,7 @@ const {
 	getAllTasks,
 	deleteTask,
 	updateTask,
+	getOneTask,
 } = require('../database_queries/tasks_queries.js');
 const router = express.Router();
 
@@ -97,10 +98,10 @@ router.put('/:taskID', isLoggedIn, async (req, res) => {
 	}
 });
 
-router.get('/:taskID', async (req, res) => {
+router.get('/one/:taskID', async (req, res) => {
 	const taskID = req.params.taskID;
 	try {
-		let task = await getOneTasks(taskID);
+		let task = await getOneTask(taskID);
 		let formattedTask = {
 			...task,
 			taskDate: moment(task.taskDate)

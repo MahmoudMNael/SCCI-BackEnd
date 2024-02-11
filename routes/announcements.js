@@ -4,6 +4,7 @@ const {
 	getAllAnnouncements,
 	deleteAnnouncement,
 	updateAnnouncement,
+	getOneAnnouncement,
 } = require('../database_queries/announcements_queries.js');
 const moment = require('moment-timezone');
 const { isLoggedIn } = require('../middlewares/index.js');
@@ -96,10 +97,10 @@ router.put('/:announcementID', isLoggedIn, async (req, res) => {
 	}
 });
 
-router.get('/:announcementID', async (req, res) => {
+router.get('/one/:announcementID', async (req, res) => {
 	const announcementID = req.params.announcementID;
 	try {
-		let announcement = await getOneTasks(announcementID);
+		let announcement = await getOneAnnouncement(announcementID);
 		let formattedAnnouncement = {
 			...announcement,
 			announcementDate: moment(announcement.taskDate)
