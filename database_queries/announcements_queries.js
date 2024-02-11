@@ -70,7 +70,6 @@ async function getOneAnnouncement(announcementID) {
 	`,
 		[announcementID]
 	);
-
 	return result;
 }
 
