@@ -9,7 +9,7 @@ const { isLoggedIn } = require("../middlewares/index.js");
 // authentication:: local strategy creation with the verification
 passport.use(
 	new LocalStrategy(async function verify(email, password, cb) {
-		const user = await getUser(email);
+		const user = await getUser(email.toLowerCase());
 		if (user) {
 			if (isPasswordMatched(user.password, user.salt, password)) {
 				return cb(null, user);

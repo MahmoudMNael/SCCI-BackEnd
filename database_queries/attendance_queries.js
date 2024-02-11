@@ -61,6 +61,7 @@ async function getAttendanceOfSession(sessionID) {
     		Users ON Attendance.participantID = userID
 		WHERE
     		WeeklySessions.sessionID = ?
+		ORDER BY userFullName
 		`,
 		[sessionID]
 	);
