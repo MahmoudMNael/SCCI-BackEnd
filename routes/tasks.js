@@ -44,12 +44,13 @@ router.get('/:taskWorkshop', async (req, res) => {
 				taskDate: moment(row.taskDate)
 					.tz('africa/cairo')
 					.format('DD MMM yyyy, h:mm a'),
+				taskDeadline: moment(row.taskDeadline)
+					.tz('africa/cairo')
+					.format('DD MMM yyyy, h:mm a'),
 			};
 		});
 		if (tasks) {
-			res.status(200).json({
-				data: formattedTasks,
-			});
+			res.status(200).json(formattedTasks);
 		} else {
 			res.status(404).json({
 				message: 'no tasks found',
@@ -107,11 +108,12 @@ router.get('/one/:taskID', async (req, res) => {
 			taskDate: moment(task.taskDate)
 				.tz('africa/cairo')
 				.format('DD MMM yyyy, h:mm a'),
+			taskDeadline: moment(task.taskDeadline)
+				.tz('africa/cairo')
+				.format('DD MMM yyyy, h:mm a'),
 		};
 		if (task) {
-			res.status(200).json({
-				data: formattedTask,
-			});
+			res.status(200).json(formattedTask);
 		} else {
 			res.status(404).json({
 				message: 'no tasks found',

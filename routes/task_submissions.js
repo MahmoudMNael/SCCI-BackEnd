@@ -9,7 +9,7 @@ const {
 } = require('../database_queries/task_submissions_queries.js');
 const router = express.Router();
 
-router.post('/submissions', isLoggedIn, async (req, res) => {
+router.post('/:taskID/submissions', isLoggedIn, async (req, res) => {
 	let taskID = req.params.taskID;
 	let body = req.body;
 	try {
@@ -34,7 +34,7 @@ router.post('/submissions', isLoggedIn, async (req, res) => {
 	}
 });
 
-router.get('/submissions', async (req, res) => {
+router.get('/:taskID/submissions', async (req, res) => {
 	let taskID = req.params.taskID;
 	try {
 		let submissions = await getAllTaskSubmissions(taskID);
@@ -47,9 +47,7 @@ router.get('/submissions', async (req, res) => {
 			};
 		});
 		if (submissions) {
-			res.status(200).json({
-				data: formattedSubmissions,
-			});
+			res.status(200).json(formattedSubmissions);
 		} else {
 			res.status(404).json({
 				message: 'no submissions found',
@@ -62,7 +60,7 @@ router.get('/submissions', async (req, res) => {
 	}
 });
 
-router.delete('/:submissionID', isLoggedIn, async (req, res) => {
+router.delete('/:taskID/:submissionID', isLoggedIn, async (req, res) => {
 	const submissionID = req.params.submissionID;
 	try {
 		let submission = await deleteTaskSubmission(submissionID);
@@ -78,11 +76,11 @@ router.delete('/:submissionID', isLoggedIn, async (req, res) => {
 	}
 });
 
-router.get('/submissions/user', async (req, res) => {
+router.get('/:taskID/submissions/user', isLoggedIn, async (req, res) => {
 	let authorID = req.user.userID;
 	try {
+		let submission = await getOneTaskSubmission(authorID, req.params.taskID);
 		if (submission) {
-			let submission = await getOneTaskSubmission(authorID);
 			let formattedSubmission = {
 				...submission,
 				submissionDate: moment(submission.submissionDate)

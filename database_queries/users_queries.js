@@ -1,9 +1,9 @@
-const pool = require("../database_connection.js");
-const { encryptPassRandomSalt } = require("../encryption.js");
+const pool = require('../database_connection.js');
+const { encryptPassRandomSalt } = require('../encryption.js');
 
 // get all registered users
 async function getAllUsers() {
-	const [rows] = await pool.execute("SELECT * FROM Users");
+	const [rows] = await pool.execute('SELECT * FROM Users');
 	return rows;
 }
 
@@ -13,6 +13,17 @@ async function getUser(email) {
 		`SELECT * FROM Users WHERE userEmail = ?`,
 		[email]
 	);
+	if (row !== undefined) {
+		return row;
+	} else {
+		return 0;
+	}
+}
+
+async function getUserById(userID) {
+	const [[row]] = await pool.execute(`SELECT * FROM Users WHERE userID = ?`, [
+		userID,
+	]);
 	if (row !== undefined) {
 		return row;
 	} else {
@@ -86,6 +97,18 @@ async function createUserAccount(
 	return result;
 }
 
+async function updateUser(fullName, email, userID) {
+	let result;
+	result = await pool.execute(
+		`
+	UPDATE Users SET userFullName=?, userEmail=? WHERE userID=?
+	`,
+		[fullName, email, userID]
+	);
+
+	return result;
+}
+
 module.exports = {
 	getAllUsers,
 	getUser,
@@ -93,4 +116,6 @@ module.exports = {
 	getAllUsersByUserType,
 	getAllParticipantsByWorkshop,
 	createUserAccount,
+	getUserById,
+	updateUser,
 };
