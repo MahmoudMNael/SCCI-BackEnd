@@ -46,9 +46,7 @@ router.get('/:announcementType', async (req, res) => {
 			};
 		});
 		if (announcements) {
-			res.status(200).json({
-				data: formattedAnnouncements,
-			});
+			res.status(200).json(formattedAnnouncements);
 		} else {
 			res.status(404).json({
 				message: 'no announcements found',
@@ -108,9 +106,7 @@ router.get('/one/:announcementID', async (req, res) => {
 				.format('DD MMM yyyy, h:mm a'),
 		};
 		if (announcement) {
-			res.status(200).json({
-				data: formattedAnnouncement,
-			});
+			res.status(200).json(formattedAnnouncement);
 		} else {
 			res.status(404).json({
 				message: 'no tasks found',

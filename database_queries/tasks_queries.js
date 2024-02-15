@@ -46,7 +46,7 @@ async function deleteTask(taskID) {
 async function updateTask(taskID, taskMessage, taskDeadline) {
 	let [result] = await pool.execute(
 		`
-	UPDATE Tasks SET taskMessage=?, taskDeadline=? WHERE announcementID=?
+	UPDATE Tasks SET taskMessage=?, taskDeadline=? WHERE taskID=?
 	`,
 		[taskMessage, taskDeadline, taskID]
 	);

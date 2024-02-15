@@ -43,17 +43,22 @@ async function deleteTaskSubmission(submissionID) {
 	}
 }
 
-async function getOneTaskSubmission(authorID) {
-	let [[result]] = await pool.execute(
-		`
-		SELECT submissionID, Users.userFullName as authorName, submissionMessage, submissionDate FROM TaskSubmissions
-		JOIN Users ON TaskSubmissions.authorID=Users.userID
-		WHERE authorID=? ORDER BY submissionDate DESC
-	`,
-		[authorID]
-	);
+async function getOneTaskSubmission(authorID, taskID) {
+	try {
+		let [[result]] = await pool.execute(
+			`
+			SELECT submissionID, Users.userFullName as authorName, submissionMessage, submissionDate FROM TaskSubmissions
+			JOIN Users ON TaskSubmissions.authorID=Users.userID
+			JOIN Tasks ON TaskSubmissions.taskID=Tasks.taskID
+			WHERE TaskSubmissions.authorID=? AND TaskSubmissions.taskID=? ORDER BY submissionDate DESC
+		`,
+			[authorID, taskID]
+		);
 
-	return result;
+		return result;
+	} catch (e) {
+		return 0;
+	}
 }
 
 module.exports = {

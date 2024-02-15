@@ -49,7 +49,7 @@ app.use('/app/24/api/admin', adminAccRoutes);
 app.use('/app/24/api/hr', hrAccRoutes);
 app.use('/app/24/api/announcements', announcementsRoutes);
 app.use('/app/24/api/tasks', tasksRoutes);
-app.use('/app/24/api/tasks/:taskID', taskSubmissionsRoutes);
+app.use('/app/24/api/tasks', taskSubmissionsRoutes);
 
 app.get('/app/24', async (req, res) => {
 	res.status(200).json({
